@@ -1,34 +1,35 @@
 
 1. LBYL means "Leave Before You Leap" - A action is permitted before it attempted.
+Example:
+	Let's take a scenario, where we are using a file in a process. 
+	So we need to make sure that the file should be present first. because other processes might be using it and it can change it. 
+	If the file is not present then it will not move ahead.
+	
+		if "name" in list:          #if "name" present then only we move ahead else we will stop here.
+			print("name")
+		else :
+			return f'("name" does not exist)'
 
-	Example:
-
-		Let's take a scenario, where we are using a file in a process. So we need to make sure that the file should be present first. because other processes might be using it and it can change it. If the file is not present then it will not move ahead.
-
-			if "name" in list:          #if "name" present then only we move ahead else we will stop here.
-				print("name")
-			else :
-				return f'("name" does not exist)'
-
-		And the problem with LBYL is if the file we are trying to look has been changed before we leap it. In that case, our action will fall in "Race Condition" and we will get into trouble.
+	And the problem with LBYL is if the file we are trying to look has been changed before we leap it. 
+	In that case, our action will fall in "Race Condition" and we will get into trouble.
 
 To Avoid this Condition, We use EAFP:
 
 2. EAFP means "It's Easier to Ask for Forgiveness than Permission" - Where Action throws Exception during an attempt if it fails anywhere.
+Example:
+	Let's take the same scenario, where we were using a file in a process. 
+	So here we do not have to worry that the file should be present or it is already used by some other process. 
+	We will continue doing the operation. If the exception occurs it gets logged.
+	
+		try :
+			print("name")         #if "name" has any Issues, We will catch them and can log them.
+		except ERROR as e:
+			print("there is some problem with {"name"}:"(e))
 
-	Example:
-
-		Let's take the same scenario, where we were using a file in a process. So here we do not have to worry that the file should be present or it is already used by some other process. We will continue doing the operation. If the exception occurs it gets logged.
-
-			try :
-				print("name")         #if "name" has any Issues, We will catch them and can log them.
-			except ERROR as e:
-				print("there is some problem with {"name"}:"(e))
-
-		EAFP is a bit slow as it has multiple corner cases.
-		But there are limitations to EAFP also, We need to catch all the possible causes of Exception.
-		If any exception itself has the issue. then we will get into trouble.
-		So permission is better before to use.
+	EAFP is a bit slow as it has multiple corner cases.
+	But there are limitations to EAFP also, We need to catch all the possible causes of Exception.
+	If any exception itself has the issue. then we will get into trouble.
+	So permission is better before to use.
 
 We can use both in a single process.
 EAFP & LBYL both have their drawbacks to use But need to make sure about the problems we might face before using them.
